@@ -3,10 +3,10 @@ import React from "react";
 const Home = () => {
   return (
     <>
-      <div>Home</div>
-      <div>Home</div>
-      <div>Home</div>
-      <div>Home</div>
+      <div>Homes</div>
+      <div>Homes</div>
+      <div>Homes</div>
+      <div>Homes</div>
       <div>Home</div>
       <div>Home</div>
       <div>Home</div>
