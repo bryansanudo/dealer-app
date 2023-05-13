@@ -9,7 +9,7 @@ const Home = () => {
       <div>Homes</div>
       <div>Home</div>
       <div>Home</div>
-      <div>Home</div>
+      <div className="home">Home</div>
     </>
   );
 };

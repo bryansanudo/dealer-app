@@ -3,40 +3,8 @@ import { FaBars, FaTimes } from "react-icons/fa";
 
 import { Link } from "react-router-dom";
 
-const Navbar = () => {
+const Navbar = ({ setUser, user }) => {
   const [isMenuShown, setIsMenuShown] = useState(false);
-  const links = [
-    {
-      id: 1,
-      link: "/",
-      name: "Inicio",
-    },
-    {
-      id: 2,
-      link: "/contact",
-      name: "Contacto",
-    },
-    {
-      id: 3,
-      link: "/financing",
-      name: "Financiación",
-    },
-    {
-      id: 4,
-      link: "/login",
-      name: "Ingresar",
-    },
-    {
-      id: 5,
-      link: "/register",
-      name: "Registrate",
-    },
-    {
-      id: 6,
-      link: "/user-profile",
-      name: "user",
-    },
-  ];
 
   return (
     <>
@@ -44,13 +12,52 @@ const Navbar = () => {
         <div className="flex justify-between  md:gap-5 items-center max-w-screen-xl mx-auto px-8 h-full">
           <div className="hidden lg:flex items-center">
             <ul className="flex ">
-              {links.map(({ id, link, name }) => (
-                <Link key={id} to={link}>
-                  <li className="p-4 uppercase duration-300 hover:text-primary hover:scale-110 cursor-pointer">
-                    {name}
-                  </li>
-                </Link>
-              ))}
+              <Link to="/">
+                <li className="p-4 uppercase duration-300 hover:text-primary hover:scale-110 cursor-pointer">
+                  Inicio
+                </li>
+              </Link>
+              <Link to="/contact">
+                <li className="p-4 uppercase duration-300 hover:text-primary hover:scale-110 cursor-pointer">
+                  Contacto
+                </li>
+              </Link>
+              <Link to="/financing">
+                <li
+                  className={`p-4 uppercase duration-300 hover:text-primary hover:scale-110 cursor-pointer ${
+                    user ? "" : "hidden"
+                  }`}
+                >
+                  Financiación
+                </li>
+              </Link>
+              <Link to="/login">
+                <li
+                  className={`p-4 uppercase duration-300 hover:text-primary hover:scale-110 cursor-pointer ${
+                    user ? "hidden" : ""
+                  }`}
+                >
+                  Login
+                </li>
+              </Link>
+              <Link to="/register">
+                <li
+                  className={`p-4 uppercase duration-300 hover:text-primary hover:scale-110 cursor-pointer ${
+                    user ? "hidden" : ""
+                  }`}
+                >
+                  Register
+                </li>
+              </Link>
+              <Link to="/user-profile">
+                <li
+                  className={`p-4 uppercase duration-300 hover:text-primary hover:scale-110 cursor-pointer ${
+                    user ? "" : "hidden"
+                  }`}
+                >
+                  Perfil
+                </li>
+              </Link>
             </ul>
           </div>
 
@@ -79,17 +86,36 @@ const Navbar = () => {
         }`}
       >
         <ul>
-          {links.map(({ id, link, name }) => (
-            <Link
-              onClick={() => setIsMenuShown(!isMenuShown)}
-              to={link}
-              key={id}
-            >
-              <li className="p-4 uppercase cursor-pointer duration-300 hover:text-thPrimary">
-                {name}
-              </li>
-            </Link>
-          ))}
+          <Link onClick={() => setIsMenuShown(!isMenuShown)} to="/">
+            <li className="p-4 uppercase cursor-pointer duration-300 hover:text-thPrimary">
+              Inicio
+            </li>
+          </Link>
+          <Link onClick={() => setIsMenuShown(!isMenuShown)} to="/contact">
+            <li className="p-4 uppercase cursor-pointer duration-300 hover:text-thPrimary">
+              Contacto
+            </li>
+          </Link>
+          <Link onClick={() => setIsMenuShown(!isMenuShown)} to="/financing">
+            <li className="p-4 uppercase cursor-pointer duration-300 hover:text-thPrimary">
+              Financiación
+            </li>
+          </Link>
+          <Link onClick={() => setIsMenuShown(!isMenuShown)} to="/login">
+            <li className="p-4 uppercase cursor-pointer duration-300 hover:text-thPrimary">
+              Login
+            </li>
+          </Link>
+          <Link onClick={() => setIsMenuShown(!isMenuShown)} to="/register">
+            <li className="p-4 uppercase cursor-pointer duration-300 hover:text-thPrimary">
+              Register
+            </li>
+          </Link>
+          <Link onClick={() => setIsMenuShown(!isMenuShown)} to="/user-profile">
+            <li className="p-4 uppercase cursor-pointer duration-300 hover:text-thPrimary">
+              Perfil
+            </li>
+          </Link>
         </ul>
       </div>
     </>

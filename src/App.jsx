@@ -6,16 +6,21 @@ import Financig from "@/components/Financing";
 import UserProfile from "@/components/UserProfile";
 import Navbar from "@/components/Navbar";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useState } from "react";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {
+  const [user, setUser] = useState(false);
   return (
     <>
       <BrowserRouter>
-        <Navbar />
+        <ToastContainer position="bottom-center" />
+        <Navbar setUser={setUser} user={user} />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/login" element={<Login setUser={setUser} />} />
           <Route path="/home" element={<Home />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/financing" element={<Financig />} />

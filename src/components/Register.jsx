@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "@/configFirebase";
+import { toast } from "react-toastify";
 
 import Reset from "@/components/Reset";
+import Loader from "@/components/Loader";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
   const [email, setEmail] = useState("");
@@ -10,21 +13,28 @@ const Register = () => {
   const [cPassword, setCPassword] = useState("");
 
   const [reset, setReset] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const redirect = useNavigate();
 
   const registrarUsuarioBD = (e) => {
     e.preventDefault();
+    setIsLoading(true);
     if (password !== cPassword) {
-      console.log("Password do not match");
+      toast.error("Password do not match");
+      setIsLoading(false);
       return;
     }
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
-
-        console.log("Inicio de sesion exitoso ", user);
+        setIsLoading(false);
+        toast.success("Usuario creado en la base de datos ");
+        redirect("/financing");
       })
       .catch((error) => {
-        console.log(error.message);
+        toast.error(error.message);
+        setIsLoading(false);
       });
   };
 
@@ -40,6 +50,7 @@ const Register = () => {
 
   return (
     <>
+      {isLoading ? <Loader /> : ""}
       <section
         className={`flex flex-col w-full gap-8 lg:flex-row pt-20 md:px-20 px-4 ${
           reset ? "hidden" : ""

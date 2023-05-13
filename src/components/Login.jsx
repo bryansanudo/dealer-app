@@ -2,32 +2,40 @@ import React, { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "@/configFirebase";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import Loader from "@/components/Loader";
 
 import Reset from "@/components/Reset";
 
-const Login = () => {
+const Login = ({ setUser }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   //estado para mostar dinamicamente login o reset
   const [reset, setReset] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const redirect = useNavigate();
   const iniciarSesion = (e) => {
     e.preventDefault();
+    setIsLoading(true);
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
-        console.log("Inicio de sesion exitoso ", user);
+        toast.success("Inicio de sesion exitoso ");
         redirect("/financing");
+        setIsLoading(false);
+        setUser(true);
       })
       .catch((error) => {
-        console.log(error.message);
+        toast.error(error.message);
+        setIsLoading(false);
       });
   };
 
   return (
     <>
+      {isLoading ? <Loader /> : ""}
       <section
         className={`flex flex-col w-full gap-8 lg:flex-row pt-20 md:px-20 px-4 ${
           reset ? "hidden" : ""
