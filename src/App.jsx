@@ -19,7 +19,7 @@ const App = () => {
         <Navbar setUser={setUser} user={user} />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/register" element={<Register />} />
+          <Route path="/register" element={<Register setUser={setUser} />} />
           <Route path="/login" element={<Login setUser={setUser} />} />
           <Route path="/home" element={<Home />} />
           <Route path="/contact" element={<Contact />} />
