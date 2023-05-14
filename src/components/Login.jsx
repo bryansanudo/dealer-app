@@ -23,7 +23,7 @@ const Login = () => {
       .then((userCredential) => {
         const user = userCredential.user;
         toast.success("Inicio de sesion exitoso ");
-        redirect("/financing");
+        redirect("/");
         setIsLoading(false);
       })
       .catch((error) => {

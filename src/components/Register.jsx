@@ -31,7 +31,7 @@ const Register = () => {
         setIsLoading(false);
         toast.success("Usuario creado en la base de datos ");
 
-        redirect("/financing");
+        redirect("/");
       })
       .catch((error) => {
         toast.error(error.message);
