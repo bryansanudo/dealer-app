@@ -7,7 +7,7 @@ import Loader from "@/components/Loader";
 
 import Reset from "@/components/Reset";
 
-const Login = ({ setUser }) => {
+const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -25,7 +25,6 @@ const Login = ({ setUser }) => {
         toast.success("Inicio de sesion exitoso ");
         redirect("/financing");
         setIsLoading(false);
-        setUser(true);
       })
       .catch((error) => {
         toast.error(error.message);

@@ -1,5 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { db } from "@/configFirebase";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import Loader from "@/components/Loader";
+import { Link } from "react-router-dom";
+import Section from "@/components/Section";
 
 const delear1 = {
   ingresos: [2000, 25],
@@ -24,7 +29,7 @@ let porcentaje1 = 0;
 let porcentaje2 = 0;
 let porcentaje3 = 0;
 
-const Financing = () => {
+const Financing = ({ email }) => {
   const [edad, setEdad] = useState(0);
   const [domicilio, setDomicilio] = useState(0);
   const [cuotaInicial, setCuotaInicial] = useState(0);
@@ -33,6 +38,9 @@ const Financing = () => {
   const [resultado1, setResultado1] = useState(0);
   const [resultado2, setResultado2] = useState(0);
   const [resultado3, setResultado3] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const [admin, setAdmin] = useState(false);
 
   const calcularSolicitud = (e) => {
     e.preventDefault();
@@ -81,92 +89,145 @@ const Financing = () => {
     setResultado3(porcentaje3);
   };
 
-  return (
-    <div className="py-40">
-      <h1 className="text-center text-primary text-4xl">
-        Calcular Financiación
-      </h1>
-      <form className="flex flex-col mx-10 gap-4 my-16 p-6 shadow-lg rounded-lg shadow-black">
-        <label className="ml-4">Edad</label>
-        <input
-          type="text"
-          className="input input-primary"
-          name="edad"
-          onChange={(e) => setEdad(e.target.value)}
-        />
-        <label className="ml-4">Ingresos</label>
-        <input
-          type="text"
-          className="input input-primary"
-          name="ingresos"
-          onChange={(e) => setIngresos(e.target.value)}
-        />
-        <label className="ml-4">Domicilio</label>
-        <input
-          type="text"
-          className="input input-primary"
-          name="domicilio"
-          onChange={(e) => setDomicilio(e.target.value)}
-        />
-        <label className="ml-4">Cuota Inicial</label>
-        <input
-          type="text"
-          className="input input-primary"
-          name="cuotaInicial"
-          onChange={(e) => setCuotaInicial(e.target.value)}
-        />
-        <button className="btn brn-primary  " onClick={calcularSolicitud}>
-          Iniciar solicitud
-        </button>
-      </form>
+  const fakeData = [
+    {
+      rol: "usuario",
+    },
+  ];
 
-      <div className=" flex flex-col gap-4 items-center justify-center mx-10 ">
-        <div className="flex flex-col md:flex-row gap-6 w-full items-start md:items-center justify-between shadow-black shadow-lg rounded-xl p-4">
-          <article className="flex gap-2 items-center justify-center">
-            <p className="font-bold text-xl">Edad:</p>
-            <p>{edad}</p>
-          </article>
-          <article className="flex gap-2 items-center justify-center">
-            <p className="font-bold text-xl">ingresos:</p>
-            <p>{ingresos}</p>
-          </article>
-          <article className="flex gap-2 items-center justify-center">
-            <p className="font-bold text-xl">domicilio:</p>
-            <p>{domicilio}</p>
-          </article>
-          <article className="flex gap-2 items-center justify-center">
-            <p className="font-bold text-xl">Couta Inicial:</p>
-            <p>{cuotaInicial}</p>
-          </article>
+  const buscarDocumentoOCrearDocumento = async (idDocumento) => {
+    setIsLoading(true);
+    //crear referencia al documento
+    const docRef = doc(db, "usuarios", idDocumento);
+    //buscar documento
+
+    const consulta = await getDoc(docRef);
+    //revissar si existe
+    if (consulta.exists()) {
+      //si si existe
+      const infoDocu = consulta.data();
+      setIsLoading(false);
+      return infoDocu.rol[0].rol;
+    } else {
+      //si no existe
+      await setDoc(docRef, { rol: [...fakeData] });
+      const consulta = await getDoc(docRef);
+      const infoDocu = consulta.data();
+      setIsLoading(false);
+      return infoDocu.rol[0].rol;
+    }
+  };
+
+  useEffect(() => {
+    async function fetch() {
+      const userRol = await buscarDocumentoOCrearDocumento(email);
+      if (userRol === "admin") {
+        setAdmin(true);
+      }
+    }
+
+    fetch();
+  }, []);
+
+  return (
+    <>
+      {isLoading ? <Loader /> : ""}
+      <Section title="Calcular Financiacion">
+        <div className="pt-10">
+          {admin ? (
+            <Link to="/admin" className="btn btn-primary ">
+              vista de admin
+            </Link>
+          ) : (
+            ""
+          )}
+
+          <form className="flex flex-col mx-10 gap-4 my-16 p-6 shadow-lg rounded-lg shadow-black">
+            <label className="ml-4">Edad</label>
+            <input
+              type="text"
+              className="input input-primary"
+              name="edad"
+              onChange={(e) => setEdad(e.target.value)}
+            />
+            <label className="ml-4">Ingresos</label>
+            <input
+              type="text"
+              className="input input-primary"
+              name="ingresos"
+              onChange={(e) => setIngresos(e.target.value)}
+            />
+            <label className="ml-4">Domicilio</label>
+            <input
+              type="text"
+              className="input input-primary"
+              name="domicilio"
+              onChange={(e) => setDomicilio(e.target.value)}
+            />
+            <label className="ml-4">Cuota Inicial</label>
+            <input
+              type="text"
+              className="input input-primary"
+              name="cuotaInicial"
+              onChange={(e) => setCuotaInicial(e.target.value)}
+            />
+            <button className="btn brn-primary  " onClick={calcularSolicitud}>
+              Iniciar solicitud
+            </button>
+          </form>
+
+          <div className=" flex flex-col gap-4 items-center justify-center mx-10 ">
+            <div className="flex flex-col md:flex-row gap-6 w-full items-start md:items-center justify-between shadow-black shadow-lg rounded-xl p-4">
+              <article className="flex gap-2 items-center justify-center">
+                <p className="font-bold text-xl">Edad:</p>
+                <p>{edad}</p>
+              </article>
+              <article className="flex gap-2 items-center justify-center">
+                <p className="font-bold text-xl">ingresos:</p>
+                <p>{ingresos}</p>
+              </article>
+              <article className="flex gap-2 items-center justify-center">
+                <p className="font-bold text-xl">domicilio:</p>
+                <p>{domicilio}</p>
+              </article>
+              <article className="flex gap-2 items-center justify-center">
+                <p className="font-bold text-xl">Couta Inicial:</p>
+                <p>{cuotaInicial}</p>
+              </article>
+            </div>
+            <div className="grid md:grid-cols-3 grid-cols-1 gap-10 mt-10">
+              <article className=" max-w-[300px] shadow-md shadow-black p-6 rounded-xl ">
+                <p className="text-lg">
+                  Porcentaje con el Dealer{" "}
+                  <span className="text-primary">#1</span>
+                </p>
+                <p className="text-center mt-6 text-primary font-bold text-3xl">
+                  {resultado1}%
+                </p>
+              </article>
+              <article className=" max-w-[300px] shadow-md shadow-black p-6 rounded-xl ">
+                <p className="text-lg">
+                  Porcentaje con el Dealer{" "}
+                  <span className="text-primary">#2</span>
+                </p>
+                <p className="text-center mt-6 text-primary font-bold text-3xl">
+                  {resultado2}%
+                </p>
+              </article>
+              <article className=" max-w-[300px] shadow-md shadow-black p-6 rounded-xl ">
+                <p className="text-lg">
+                  Porcentaje con el Dealer{" "}
+                  <span className="text-primary">#3</span>
+                </p>
+                <p className="text-center mt-6 text-primary font-bold text-3xl">
+                  {resultado3}%
+                </p>
+              </article>
+            </div>
+          </div>
         </div>
-        <div className="grid md:grid-cols-3 grid-cols-1 gap-10 mt-10">
-          <article className=" max-w-[300px] shadow-md shadow-black p-6 rounded-xl ">
-            <p className="text-lg">
-              Porcentaje con el Dealer <span className="text-primary">#1</span>
-            </p>
-            <p className="text-center mt-6 text-primary font-bold text-3xl">
-              {resultado1}%
-            </p>
-          </article>
-          <article className=" max-w-[300px] shadow-md shadow-black p-6 rounded-xl ">
-            <p className="text-lg">
-              Porcentaje con el Dealer <span className="text-primary">#2</span>
-            </p>
-            <p className="text-center mt-6 text-primary font-bold text-3xl">
-              {resultado2}%
-            </p>
-          </article>
-          <article className=" max-w-[300px] shadow-md shadow-black p-6 rounded-xl ">
-            <p className="text-lg">
-              Porcentaje con el Dealer <span className="text-primary">#3</span>
-            </p>
-            <p className="text-center mt-6 text-primary font-bold text-3xl">
-              {resultado3}%
-            </p>
-          </article>
-        </div>
-      </div>
-    </div>
+      </Section>
+    </>
   );
 };
 

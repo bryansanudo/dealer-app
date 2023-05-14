@@ -1,10 +1,25 @@
 import React, { useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
+import { signOut } from "firebase/auth";
+import { auth } from "@/configFirebase";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Navbar = ({ setUser, user }) => {
   const [isMenuShown, setIsMenuShown] = useState(false);
+
+  const redirect = useNavigate();
+  const logout = () => {
+    signOut(auth)
+      .then(() => {
+        console.log("cerro sesion exitosamente");
+        setUser(false);
+        redirect("/");
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
 
   return (
     <>
@@ -58,6 +73,15 @@ const Navbar = ({ setUser, user }) => {
                   Perfil
                 </li>
               </Link>
+
+              <li
+                onClick={logout}
+                className={`p-4 uppercase duration-300 hover:text-primary hover:scale-110 cursor-pointer ${
+                  user ? "" : "hidden"
+                }`}
+              >
+                Salir
+              </li>
             </ul>
           </div>
 

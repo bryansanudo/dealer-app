@@ -7,7 +7,7 @@ import Reset from "@/components/Reset";
 import Loader from "@/components/Loader";
 import { useNavigate } from "react-router-dom";
 
-const Register = ({ setUser }) => {
+const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [cPassword, setCPassword] = useState("");
@@ -30,7 +30,7 @@ const Register = ({ setUser }) => {
         const user = userCredential.user;
         setIsLoading(false);
         toast.success("Usuario creado en la base de datos ");
-        setUser(true);
+
         redirect("/financing");
       })
       .catch((error) => {

@@ -3,12 +3,12 @@ import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDqV4KA4xkd7yWLw5ggKOiQxJlRH06XGTE",
-  authDomain: "dealer-app-a4d2a.firebaseapp.com",
-  projectId: "dealer-app-a4d2a",
-  storageBucket: "dealer-app-a4d2a.appspot.com",
-  messagingSenderId: "963100383143",
-  appId: "1:963100383143:web:7ad96640643eca75804882",
+  apiKey: "AIzaSyCfeQcFRZXw-J3ealEsMh2Kep9C5UhLOFQ",
+  authDomain: "dealer-a1957.firebaseapp.com",
+  projectId: "dealer-a1957",
+  storageBucket: "dealer-a1957.appspot.com",
+  messagingSenderId: "872417427443",
+  appId: "1:872417427443:web:7f35818242f40d10f75c86",
 };
 const appFirebase = initializeApp(firebaseConfig);
 export const auth = getAuth(appFirebase);
