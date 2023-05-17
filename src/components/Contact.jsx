@@ -1,21 +1,41 @@
 import React from "react";
 import Section from "@/components/Section";
+import Input from "@/components/Input";
+import { FaFacebook, FaTwitter, FaInstagram, FaYoutube } from "react-icons/fa";
+import { MdLibraryAdd } from "react-icons/md";
 
 const Contact = () => {
   return (
     <>
-      <Section
-        title="Contacto"
-        subtitle="skldfjdslkfklsajflafkldksljdfakldfjalkjdflaklgsjlgkfasjdkl"
-      >
-        <h1>contact</h1>
-        <h1>contact</h1>
-        <h1>contact</h1>
-        <h1>contact</h1>
-        <h1>contact</h1>
-        <h1>contact</h1>
-        <h1>contact</h1>
-        <h1>contact</h1>
+      <Section title="Formulario De Contacto">
+        <div className="w-full shadow-md shadow-black p-6 rounded-xl">
+          <form
+            action="https://getform.io/f/e4bd43ba-8bb7-4992-992b-67a90ff18471"
+            method="POST"
+          >
+            <Input label="Nombre" name="nombre" />
+            <Input label="Correo" name="correo" />
+            <Input label="Mensaje" name="mensaje" />
+            <button className="flex items-center justify-center gap-4 w-full mt-10 text-white bg-black border-0 py-2 px-4 hover:bg-primary focus:outline-none  hover:scale-105 duration-300 rounded">
+              Enviar mensaje
+              <MdLibraryAdd />
+            </button>
+          </form>
+          <div className="flex justify-between items-center my-10 ">
+            <a href="https://www.facebook.com/" target="_blank">
+              <FaFacebook className="text-4xl hover:text-primary hover:scale-125 duration-400" />
+            </a>
+            <a href="https://www.youtube.com/" target="_blank">
+              <FaYoutube className="text-4xl hover:text-primary hover:scale-125 duration-400" />
+            </a>
+            <a href="https://www.twitter.com/" target="_blank">
+              <FaTwitter className="text-4xl hover:text-primary hover:scale-125 duration-400" />
+            </a>
+            <a href="https://www.instagram.com/" target="_blank">
+              <FaInstagram className="text-4xl hover:text-primary hover:scale-125 duration-400" />
+            </a>
+          </div>
+        </div>
       </Section>
     </>
   );
