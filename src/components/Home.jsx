@@ -34,7 +34,7 @@ const Home = () => {
     <>
       <section className="container px-5 py-40 mx-auto flex flex-col items-center justify-between overflow-hidden ">
         <h1 className="sm:text-4xl text-3xl my-10 text-primary">
-          Lista de Vehiculos
+          Lista de Vehiculos.
         </h1>
 
         <div className=" grid lg:grid-cols-2 md:grid-cols-2 grid-cols-1 gap-8  items-center justify-center">
