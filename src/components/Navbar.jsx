@@ -14,6 +14,7 @@ const Navbar = ({ setUser, user }) => {
       .then(() => {
         console.log("cerro sesion exitosamente");
         setUser(false);
+
         redirect("/");
       })
       .catch((error) => {
@@ -26,7 +27,17 @@ const Navbar = ({ setUser, user }) => {
       <div className="fixed w-full h-16 bg-gray-900 text-white z-20  ">
         <div className="flex justify-between  md:gap-5 items-center max-w-screen-xl mx-auto px-8 h-full">
           <div className="hidden lg:flex items-center">
-            <ul className="flex ">
+            <ul className="flex">
+              {/* <Link to="/admin">
+                <li
+                  className={`p-4 uppercase duration-300 hover:text-primary hover:scale-110 cursor-pointer ${
+                    admin ? "hidden" : ""
+                  }`}
+                >
+                  admin
+                </li>
+              </Link> */}
+
               <Link to="/">
                 <li className="p-4 uppercase duration-300 hover:text-primary hover:scale-110 cursor-pointer">
                   Inicio

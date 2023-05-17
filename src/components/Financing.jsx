@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import Section from "@/components/Section";
 
 const delear1 = {
-  ingresos: [2000, 25],
+  ingresos: [2000, 0],
   domicilio: [6, 25],
   edad: [18, 50],
   cuotaInicial: [2000, 25],

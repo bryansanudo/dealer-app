@@ -1,17 +1,68 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import { db } from "@/configFirebase";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import Loader from "@/components/Loader";
+import { Link } from "react-router-dom";
+import Section from "@/components/Section";
 
-const UserProfile = () => {
+const UserProfile = ({ email }) => {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const [admin, setAdmin] = useState(false);
+  const fakeData = [
+    {
+      rol: "usuario",
+    },
+  ];
+
+  const buscarDocumentoOCrearDocumento = async (idDocumento) => {
+    setIsLoading(true);
+    //crear referencia al documento
+    const docRef = doc(db, "usuarios", idDocumento);
+    //buscar documento
+
+    const consulta = await getDoc(docRef);
+    //revissar si existe
+    if (consulta.exists()) {
+      //si si existe
+      const infoDocu = consulta.data();
+      setIsLoading(false);
+      return infoDocu.rol[0].rol;
+    } else {
+      //si no existe
+      await setDoc(docRef, { rol: [...fakeData] });
+      const consulta = await getDoc(docRef);
+      const infoDocu = consulta.data();
+      setIsLoading(false);
+      return infoDocu.rol[0].rol;
+    }
+  };
+
+  useEffect(() => {
+    async function fetch() {
+      const userRol = await buscarDocumentoOCrearDocumento(email);
+      if (userRol === "admin") {
+        setAdmin(true);
+      }
+    }
+
+    fetch();
+  }, []);
+
   return (
-    <div>
-      <h1>userProfile</h1>
-      <h1>userProfile</h1>
-      <h1>userProfile</h1>
-      <h1>userProfile</h1>
-      <h1>userProfile</h1>
-      <h1>userProfile</h1>
-      <h1>userProfile</h1>
-      <h1>userProfile</h1>
-    </div>
+    <>
+      {isLoading ? <Loader /> : ""}
+      <Section title="perfil">
+        {admin ? (
+          <Link to="/admin" className="btn btn-primary ">
+            vista de admin
+          </Link>
+        ) : (
+          ""
+        )}
+      </Section>
+    </>
   );
 };
 
