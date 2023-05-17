@@ -54,6 +54,9 @@ const UserProfile = ({ email }) => {
     <>
       {isLoading ? <Loader /> : ""}
       <Section title="perfil">
+        <h1 className="sm:text-4xl text-3xl my-10 text-gray-600">
+          Bienvenido, {email}
+        </h1>
         {admin ? (
           <Link to="/admin" className="btn btn-primary ">
             vista de admin

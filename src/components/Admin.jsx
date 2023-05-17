@@ -39,7 +39,7 @@ const Admin = () => {
 
     try {
       await addDoc(collection(db, "vehiculos"), file);
-      toast.success("Expediente guardado en base de datos");
+      toast.success("Vehiculo guardado en base de datos");
     } catch (error) {
       error.message;
     }
@@ -60,7 +60,7 @@ const Admin = () => {
     <>
       <section className="container px-5 py-40 mx-auto flex flex-col items-center justify-between overflow-hidden ">
         <h1 className="sm:text-4xl text-3xl mb-10 text-primary">
-          Crear Expediente
+          Crear Vehiculo
         </h1>
 
         <form className=" flex flex-col p-10 gap-4 w-full">
@@ -127,6 +127,7 @@ const Admin = () => {
           />
 
           <button
+            onClick={postFile}
             className="flex items-center justify-center gap-4 mt- 
                 mt-10 text-white bg-black border-0 py-2 px-4 w-[130px] focus:outline-none  hover:scale-105 duration-300 rounded"
           >
