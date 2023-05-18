@@ -23,16 +23,16 @@ const Contact = () => {
           </form>
           <div className="flex justify-between items-center my-10 ">
             <a href="https://www.facebook.com/" target="_blank">
-              <FaFacebook className="text-4xl hover:text-primary hover:scale-125 duration-400" />
+              <FaFacebook className="text-4xl hover:text-primary hover:scale-125 duration-300" />
             </a>
             <a href="https://www.youtube.com/" target="_blank">
-              <FaYoutube className="text-4xl hover:text-primary hover:scale-125 duration-400" />
+              <FaYoutube className="text-4xl hover:text-primary hover:scale-125 duration-300" />
             </a>
             <a href="https://www.twitter.com/" target="_blank">
-              <FaTwitter className="text-4xl hover:text-primary hover:scale-125 duration-400" />
+              <FaTwitter className="text-4xl hover:text-primary hover:scale-125 duration-300" />
             </a>
             <a href="https://www.instagram.com/" target="_blank">
-              <FaInstagram className="text-4xl hover:text-primary hover:scale-125 duration-400" />
+              <FaInstagram className="text-4xl hover:text-primary hover:scale-125 duration-300" />
             </a>
           </div>
         </div>

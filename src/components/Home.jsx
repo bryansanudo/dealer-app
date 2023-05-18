@@ -1,12 +1,13 @@
 import React, { useState } from "react";
-import { TbListDetails } from "react-icons/tb";
+
 import { db } from "@/configFirebase";
 import { collection, getDocs } from "firebase/firestore";
-import { Link } from "react-router-dom";
+
 import { useEffect } from "react";
 import Label from "@/components/Label";
 import { v4 } from "uuid";
 import { MdLibraryAdd } from "react-icons/md";
+import Section from "@/components/Section";
 const Home = () => {
   const [data, setData] = useState([]);
 
@@ -32,11 +33,7 @@ const Home = () => {
 
   return (
     <>
-      <section className="container px-5 py-40 mx-auto flex flex-col items-center justify-between overflow-hidden ">
-        <h1 className="sm:text-4xl text-3xl my-10 text-primary">
-          Lista de Vehiculos.
-        </h1>
-
+      <Section title="Lista De Vehiculos">
         <div className=" grid lg:grid-cols-2 md:grid-cols-2 grid-cols-1 gap-8  items-center justify-center">
           {data.map((data) => (
             <div
@@ -91,7 +88,7 @@ const Home = () => {
               </div>
               <img
                 src={data.urlImagen}
-                className="h-[330px] md:h-[500px] shadow-md shadow-primary w-full  object-cover rounded-xl "
+                className="h-[330px] md:h-[500px] shadow-md shadow-primary w-full object-contain rounded-xl  "
                 alt="404"
               />
               <button
@@ -110,7 +107,7 @@ const Home = () => {
           <button className="btn bg-primary">3</button>
           <button className="btn bg-primary">4</button>
         </div>
-      </section>
+      </Section>
     </>
   );
 };

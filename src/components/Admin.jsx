@@ -3,8 +3,13 @@ import { collection, addDoc } from "firebase/firestore";
 import { db } from "@/configFirebase";
 import { MdLibraryAdd } from "react-icons/md";
 import { toast } from "react-toastify";
+import { storage } from "@/configFirebase";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { v4 } from "uuid";
+import Loader from "@/components/Loader";
 
 import Input from "@/components/Input";
+import Section from "@/components/Section";
 
 const Admin = () => {
   const [file, setFile] = useState({
@@ -30,18 +35,35 @@ const Admin = () => {
     urlImagen,
   } = file;
 
+  const [upload, setUpload] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleChange = (e) => {
     setFile({ ...file, [e.target.name]: e.target.value });
   };
 
+  const uploadFile = async (file) => {
+    const storageRef = ref(storage, v4());
+
+    await uploadBytes(storageRef, file);
+    const url = await getDownloadURL(storageRef);
+    return url;
+  };
+
   const postFile = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
+    const url = await uploadFile(upload);
+    const newObj = { ...file, urlImagen: url };
+    console.log(newObj);
 
     try {
-      await addDoc(collection(db, "vehiculos"), file);
+      await addDoc(collection(db, "vehiculos"), newObj);
       toast.success("Vehiculo guardado en base de datos");
+      setIsLoading(false);
     } catch (error) {
-      error.message;
+      console.log(error.message);
+      setIsLoading(false);
     }
 
     setFile({
@@ -58,12 +80,16 @@ const Admin = () => {
   };
   return (
     <>
-      <section className="container px-5 py-40 mx-auto flex flex-col items-center justify-between overflow-hidden ">
-        <h1 className="sm:text-4xl text-3xl mb-10 text-primary">
-          Crear Vehiculo
-        </h1>
+      <Section title="Crear Vehiculo">
+        {isLoading ? <Loader /> : ""}
 
         <form className=" flex flex-col p-10 gap-4 w-full">
+          <input
+            type="file"
+            name="urlImagen"
+            onChange={(e) => setUpload(e.target.files[0])}
+            className="file-input file-input-bordered file-input-primary w-full max-w-x hover:scale-105 duration-300"
+          />
           <div className="grid grid-cols-2 gap-6 ">
             <Input
               label="Modelo"
@@ -119,13 +145,6 @@ const Admin = () => {
             />
           </div>
 
-          <Input
-            label="url de la imagen del carro"
-            name="urlImagen"
-            handleChange={handleChange}
-            value={urlImagen}
-          />
-
           <button
             onClick={postFile}
             className="flex items-center justify-center gap-4 mt- 
@@ -135,7 +154,7 @@ const Admin = () => {
             <MdLibraryAdd />
           </button>
         </form>
-      </section>
+      </Section>
     </>
   );
 };
