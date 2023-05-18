@@ -10,7 +10,7 @@ const Contact = () => {
       <Section title="Formulario De Contacto">
         <div className="w-full shadow-md shadow-black p-6 rounded-xl">
           <form
-            action="https://getform.io/f/e4bd43ba-8bb7-4992-992b-67a90ff18471"
+            action="https://getform.io/f/8ba689d2-8bc8-4cae-8a12-c98354ce83ec"
             method="POST"
           >
             <Input label="Nombre" name="nombre" />
